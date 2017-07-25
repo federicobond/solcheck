@@ -37,20 +37,20 @@ function processFile(filePath, source) {
 
   for (let { ruleId, rule, severity } of getRules()) {
     let context = {
-      report(obj) {
+      report(descriptor) {
 
-        if (obj.node) {
-          const node = obj.node
-          delete obj.node
+        if (descriptor.node) {
+          const node = descriptor.node
+          delete descriptor.node
 
-          Object.assign(obj, {
+          Object.assign(descriptor, {
             line: node.loc.start.line,
             column: node.loc.start.column + 1,
           })
         }
 
         const message = Object.assign(
-          { ruleId, severity }, obj
+          { ruleId, severity }, descriptor
         )
 
         if (message.severity === 2) {
@@ -69,7 +69,7 @@ function processFile(filePath, source) {
     parser.visit(ast, rule.create(context))
   }
 
-  return Object({ errorCount, warningCount, filePath, source, messages })
+  return { errorCount, warningCount, filePath, source, messages }
 }
 
 module.exports = function main() {
