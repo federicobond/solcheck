@@ -1,6 +1,6 @@
 {
   "name": "solcheck",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "A Solidity linter written in JS",
   "main": "src/index.js",
   "repository": "https://github.com/federicobond/solcheck.git",
