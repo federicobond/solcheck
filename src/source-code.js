@@ -6,7 +6,7 @@ class SourceCode {
   }
 
   getText(node) {
-    return this.text.substring(node.range[0], node.range[1])
+    return this.text.substring(node.range[0], node.range[1] + 1)
   }
 
 }

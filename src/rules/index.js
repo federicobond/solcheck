@@ -23,5 +23,10 @@ module.exports = [
     ruleId: "no-call-value",
     rule: require("./no-call-value"),
     severity: 2
+  },
+  {
+    ruleId: "similar-names",
+    rule: require("./similar-names"),
+    severity: 2
   }
 ]
