@@ -8,7 +8,7 @@
   "license": "GPL-3.0",
   "scripts": {
     "test": "mocha --compilers js:babel-register",
-    "prettier": "find src -name *.js | xargs prettier --no-semi -w",
+    "prettier": "find src -name *.js | xargs prettier --no-semi --write",
     "compile": "babel -d lib/ src/"
   },
   "bin": {
