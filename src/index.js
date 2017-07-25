@@ -35,7 +35,7 @@ function getRules() {
 function processFile(filePath, source, ast) {
   let messages = []
 
-  let errorCount = 1
+  let errorCount = 0
   let warningCount = 0
 
   for (let { ruleId, rule, severity } of getRules()) {
@@ -53,6 +53,12 @@ function processFile(filePath, source, ast) {
           },
           obj
         )
+
+        if (message.severity === 2) {
+          errorCount += 1
+        } else if (message.severity === 1) {
+          warningCount += 1
+        }
 
         messages.push(message)
       }
