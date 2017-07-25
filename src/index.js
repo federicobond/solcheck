@@ -1,29 +1,21 @@
 import findUp from "find-up"
 import fs from "fs"
+import getStdin from 'get-stdin'
 import glob from "glob"
-import parser from "solidity-parser-antlr"
 
-import SourceCode from "./source-code"
+import Linter from "./linter"
 
 const formatter = require("eslint/lib/formatters/codeframe")
 
 const NAME = "solcheck"
 
-function compareDescriptors(a, b) {
-  const cmp = a.line - b.line
-  if (cmp !== 0) {
-    return cmp
-  }
-  return a.column - b.column
-}
-
 function lint(files, argv) {
   let results = []
 
   glob(files[0], (err, matches) => {
-    for (let filePath of matches) {
-      const text = fs.readFileSync(filePath).toString("utf-8")
-      const report = processFile(filePath, text)
+    for (let filename of matches) {
+      const text = fs.readFileSync(filename).toString("utf-8")
+      const report = verify(text, filename)
       results.push(report)
     }
 
@@ -31,52 +23,8 @@ function lint(files, argv) {
   })
 }
 
-function getRules() {
-  return require("./rules")
-}
-
-function processFile(filePath, source) {
-  let messages = []
-
-  let errorCount = 0
-  let warningCount = 0
-
-  const ast = parser.parse(source, { loc: true, range: true })
-
-  for (let { ruleId, rule, severity } of getRules()) {
-    let context = {
-      report(descriptor) {
-        if (descriptor.node) {
-          const node = descriptor.node
-          delete descriptor.node
-
-          Object.assign(descriptor, {
-            line: node.loc.start.line,
-            column: node.loc.start.column + 1
-          })
-        }
-
-        const message = Object.assign({ ruleId, severity }, descriptor)
-
-        if (message.severity === 2) {
-          errorCount += 1
-        } else if (message.severity === 1) {
-          warningCount += 1
-        }
-
-        messages.push(message)
-      },
-
-      getSourceCode() {
-        return new SourceCode(source, ast)
-      }
-    }
-    parser.visit(ast, rule.create(context))
-  }
-
-  messages.sort(compareDescriptors)
-
-  return { errorCount, warningCount, filePath, source, messages }
+function verify(source, filename) {
+  return new Linter().verify(source, filename)
 }
 
 module.exports = function main() {
@@ -89,12 +37,32 @@ module.exports = function main() {
       alias: "v",
       default: false
     })
+    .option("stdin", {
+      desc: "Lint code provided on <STDIN>",
+      type: "boolean",
+      default: false
+    })
+    .option("stdin-filename", {
+      desc: "Specify filename to process STDIN as",
+      default: '<input>',
+      type: "string"
+    })
     .version()
     .help()
     .config(config)
     .pkgConf(NAME).argv
 
-  const files = argv._
+  if (argv.stdin) {
 
-  lint(files, argv)
+    getStdin().then(str => {
+      const results = [verify(str, argv['stdin-filename'])]
+      console.log(formatter(results))
+    })
+
+  } else {
+
+    const files = argv._
+    lint(files, argv)
+
+  }
 }

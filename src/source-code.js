@@ -1,6 +1,7 @@
 class SourceCode {
-  constructor(text) {
+  constructor(text, ast) {
     this.text = text
+    this.ast = ast
     this.lines = text.split("\n")
   }
 
