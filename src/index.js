@@ -82,6 +82,7 @@ module.exports = function main() {
       alias: "v",
       default: false
     })
+    .version()
     .help()
     .config(config)
     .pkgConf(NAME).argv
