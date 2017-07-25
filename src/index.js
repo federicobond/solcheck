@@ -23,18 +23,7 @@ function lint(files, argv) {
 }
 
 function getRules() {
-  return [
-    {
-      ruleId: "deprecated-suicide",
-      rule: require("./rules/deprecated-suicide"),
-      severity: 2
-    },
-    {
-      ruleId: "naming",
-      rule: require("./rules/naming"),
-      severity: 2
-    }
-  ]
+  return require('./rules')
 }
 
 function processFile(filePath, source, ast) {
