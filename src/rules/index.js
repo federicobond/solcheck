@@ -5,6 +5,11 @@ module.exports = [
     severity: 2
   },
   {
+    ruleId: "deprecated-throw",
+    rule: require("./deprecated-throw"),
+    severity: 2
+  },
+  {
     ruleId: "naming",
     rule: require("./naming"),
     severity: 2
