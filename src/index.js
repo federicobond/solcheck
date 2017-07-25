@@ -28,6 +28,11 @@ function getRules() {
       ruleId: "deprecated-suicide",
       rule: require("./rules/deprecated-suicide"),
       severity: 2
+    },
+    {
+      ruleId: "naming",
+      rule: require("./rules/naming"),
+      severity: 2
     }
   ]
 }
