@@ -1,9 +1,20 @@
 solcheck
 ========
 
-[WORK IN PROGRESS]
-
 A linter for Solidity code written in JS and heavily inspired by eslint.
+
+
+### Install
+
+```
+npm install -g solcheck
+```
+
+### Usage
+
+```
+solcheck contracts/*
+```
 
 ### Author
 
