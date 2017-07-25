@@ -9,7 +9,9 @@
   "scripts": {
     "test": "mocha --compilers js:babel-register",
     "prettier": "find src -name *.js | xargs prettier --no-semi --write",
-    "compile": "babel -d lib/ src/"
+    "compile": "babel -d lib/ src/",
+    "pretest": "npm run compile",
+    "prepublish": "npm run compile"
   },
   "bin": {
     "solcheck": "./bin/solcheck.js"
