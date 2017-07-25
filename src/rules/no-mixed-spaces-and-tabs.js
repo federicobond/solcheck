@@ -12,11 +12,11 @@ module.exports = {
     function containsMixedIndentation(line) {
       const index = line.search(/\S|$/)
       const start = line.substring(0, index)
-      return start.includes('\t') && start.includes(' ')
+      return start.includes("\t") && start.includes(" ")
     }
 
     return {
-      ['SourceUnit:exit'](node) {
+      ["SourceUnit:exit"](node) {
         lines
           .map((line, index) => [line, index])
           .filter(([line, index]) => containsMixedIndentation(line))

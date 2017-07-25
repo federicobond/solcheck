@@ -7,17 +7,17 @@ module.exports = {
   },
 
   create(context) {
-
     return {
       SourceUnit(node) {
-
         let contractFound = false
 
         for (let child of node.children) {
-          if (child.type === 'ContractDefinition') {
+          if (child.type === "ContractDefinition") {
             contractFound = true
-
-          } else if (contractFound === true && child.type === 'ImportDirective') {
+          } else if (
+            contractFound === true &&
+            child.type === "ImportDirective"
+          ) {
             context.report({
               node: child,
               message: "Imports should be moved above all contracts."

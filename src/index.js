@@ -3,7 +3,7 @@ import fs from "fs"
 import glob from "glob"
 import parser from "solidity-parser-antlr"
 
-import SourceCode from './source-code'
+import SourceCode from "./source-code"
 
 const formatter = require("eslint/lib/formatters/codeframe")
 
@@ -32,7 +32,7 @@ function lint(files, argv) {
 }
 
 function getRules() {
-  return require('./rules')
+  return require("./rules")
 }
 
 function processFile(filePath, source) {
@@ -46,20 +46,17 @@ function processFile(filePath, source) {
   for (let { ruleId, rule, severity } of getRules()) {
     let context = {
       report(descriptor) {
-
         if (descriptor.node) {
           const node = descriptor.node
           delete descriptor.node
 
           Object.assign(descriptor, {
             line: node.loc.start.line,
-            column: node.loc.start.column + 1,
+            column: node.loc.start.column + 1
           })
         }
 
-        const message = Object.assign(
-          { ruleId, severity }, descriptor
-        )
+        const message = Object.assign({ ruleId, severity }, descriptor)
 
         if (message.severity === 2) {
           errorCount += 1

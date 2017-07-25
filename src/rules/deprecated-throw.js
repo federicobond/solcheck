@@ -1,7 +1,8 @@
 module.exports = {
   meta: {
     docs: {
-      description: "Replace deprecated throw with require() and assert() clauses.",
+      description:
+        "Replace deprecated throw with require() and assert() clauses.",
       category: "Best Practices"
     }
   },

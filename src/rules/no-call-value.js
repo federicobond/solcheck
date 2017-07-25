@@ -1,13 +1,13 @@
 module.exports = {
   meta: {
     docs: {
-      description: "Report usages of call.value() instead of safer 'send' or 'transfer'.",
+      description:
+        "Report usages of call.value() instead of safer 'send' or 'transfer'.",
       category: "Best Practices"
     }
   },
 
   create(context) {
-
     function isCallValue(node) {
       const expr = node.expression
 

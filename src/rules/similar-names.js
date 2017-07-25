@@ -10,19 +10,19 @@ module.exports = {
     const names = []
 
     function checkAndAddName(node) {
-        const name = node.name.toLowerCase()
+      const name = node.name.toLowerCase()
 
-        if (names.includes(name)) {
-          const text = context.getSourceCode().getText(node)
-          const index = text.indexOf(name)
+      if (names.includes(name)) {
+        const text = context.getSourceCode().getText(node)
+        const index = text.indexOf(name)
 
-          context.report({
-            line: node.loc.start.line,
-            column: node.loc.start.column + index + 1,
-            message: "Similar name found elsewhere."
-          })
-        }
-        names.push(name)
+        context.report({
+          line: node.loc.start.line,
+          column: node.loc.start.column + index + 1,
+          message: "Similar name found elsewhere."
+        })
+      }
+      names.push(name)
     }
 
     return {
