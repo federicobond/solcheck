@@ -1,0 +1,30 @@
+{
+  "name": "solcheck",
+  "version": "0.1.0",
+  "description": "A Solidity linter written in JS",
+  "main": "src/index.js",
+  "repository": "https://github.com/federicobond/solcheck.git",
+  "author": "Federico Bond <federicobond@gmail.com>",
+  "license": "GPL-3.0",
+  "scripts": {
+    "test": "mocha --compilers js:babel-register",
+    "prettier": "find src -name *.js | xargs prettier --no-semi -w",
+    "compile": "babel -d lib/ src/"
+  },
+  "bin": {
+    "solcheck": "./bin/solcheck.js"
+  },
+  "dependencies": {
+    "babel-polyfill": "^6.23.0",
+    "eslint": "^4.2.0",
+    "find-up": "^2.1.0",
+    "glob": "^7.1.2",
+    "solidity-parser-antlr": "^0.2.3",
+    "yargs": "^8.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
+    "babel-register": "^6.24.1"
+  }
+}
