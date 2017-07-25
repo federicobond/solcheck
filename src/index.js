@@ -9,6 +9,14 @@ const formatter = require("eslint/lib/formatters/codeframe")
 
 const NAME = "solcheck"
 
+function compareDescriptors(a, b) {
+  const cmp = a.line - b.line
+  if (cmp !== 0) {
+    return cmp
+  }
+  return a.column - b.column
+}
+
 function lint(files, argv) {
   let results = []
 
@@ -68,6 +76,8 @@ function processFile(filePath, source) {
     }
     parser.visit(ast, rule.create(context))
   }
+
+  messages.sort(compareDescriptors)
 
   return { errorCount, warningCount, filePath, source, messages }
 }
