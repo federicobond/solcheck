@@ -3,6 +3,8 @@ import fs from "fs"
 import glob from "glob"
 import parser from "solidity-parser-antlr"
 
+import SourceCode from './source-code'
+
 const formatter = require("eslint/lib/formatters/codeframe")
 
 const NAME = "solcheck"
@@ -12,9 +14,8 @@ function lint(files, argv) {
 
   glob(files[0], (err, matches) => {
     for (let filePath of matches) {
-      const source = fs.readFileSync(filePath).toString("utf-8")
-      const ast = parser.parse(source, { loc: true, range: true })
-      const report = processFile(filePath, source, ast)
+      const text = fs.readFileSync(filePath).toString("utf-8")
+      const report = processFile(filePath, text)
       results.push(report)
     }
 
@@ -26,26 +27,30 @@ function getRules() {
   return require('./rules')
 }
 
-function processFile(filePath, source, ast) {
+function processFile(filePath, source) {
   let messages = []
 
   let errorCount = 0
   let warningCount = 0
 
+  const ast = parser.parse(source, { loc: true, range: true })
+
   for (let { ruleId, rule, severity } of getRules()) {
     let context = {
       report(obj) {
-        let node = obj.node
-        delete obj.node
 
-        const message = Object.assign(
-          {
-            ruleId,
+        if (obj.node) {
+          const node = obj.node
+          delete obj.node
+
+          Object.assign(obj, {
             line: node.loc.start.line,
             column: node.loc.start.column + 1,
-            severity: 2
-          },
-          obj
+          })
+        }
+
+        const message = Object.assign(
+          { ruleId, severity }, obj
         )
 
         if (message.severity === 2) {
@@ -55,6 +60,10 @@ function processFile(filePath, source, ast) {
         }
 
         messages.push(message)
+      },
+
+      getSourceCode() {
+        return new SourceCode(source, ast)
       }
     }
     parser.visit(ast, rule.create(context))

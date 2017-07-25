@@ -13,5 +13,10 @@ module.exports = [
     ruleId: "imports-on-top",
     rule: require("./imports-on-top"),
     severity: 2
+  },
+  {
+    ruleId: "no-mixed-spaces-and-tabs",
+    rule: require("./no-mixed-spaces-and-tabs"),
+    severity: 2
   }
 ]
