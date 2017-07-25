@@ -18,5 +18,10 @@ module.exports = [
     ruleId: "no-mixed-spaces-and-tabs",
     rule: require("./no-mixed-spaces-and-tabs"),
     severity: 2
+  },
+  {
+    ruleId: "no-call-value",
+    rule: require("./no-call-value"),
+    severity: 2
   }
 ]
