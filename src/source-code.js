@@ -5,8 +5,15 @@ class SourceCode {
     this.lines = text.split("\n")
   }
 
-  getText(node) {
-    return this.text.substring(node.range[0], node.range[1] + 1)
+  getText(node, beforeCount = 0, afterCount = 0) {
+    return this.text.substring(
+      node.range[0] - beforeCount,
+      node.range[1] + afterCount + 1
+    )
+  }
+
+  getLines() {
+    return this.lines
   }
 }
 

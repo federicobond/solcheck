@@ -7,7 +7,7 @@ module.exports = {
   },
 
   create(context) {
-    const lines = context.getSourceCode().lines
+    const lines = context.getSourceCode().getLines()
 
     function containsMixedIndentation(line) {
       const index = line.search(/\S|$/)
