@@ -23,7 +23,6 @@ module.exports = {
       },
 
       FunctionDefinition(node) {
-        console.log(node)
         if (node.visibility === 'default' && !node.isConstructor && !isFallbackFunction(node)) {
           context.report({
             node,
