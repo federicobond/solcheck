@@ -4,6 +4,7 @@ module.exports = {
   "imports-on-top": require("./imports-on-top"),
   "naming": require("./naming"),
   "no-call-value": require("./no-call-value"),
+  "no-implicit-visibility": require("./no-implicit-visibility"),
   "no-mixed-spaces-and-tabs": require("./no-mixed-spaces-and-tabs"),
   "similar-names": require("./similar-names"),
   "quotes": require("./quotes")

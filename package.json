@@ -22,7 +22,7 @@
     "find-up": "^2.1.0",
     "get-stdin": "^5.0.1",
     "glob": "^7.1.2",
-    "solidity-parser-antlr": "^0.2.4",
+    "solidity-parser-antlr": "federicobond/solidity-parser-antlr#master",
     "yargs": "^8.0.2"
   },
   "devDependencies": {
