@@ -34,7 +34,7 @@ module.exports = {
       },
 
       FunctionDefinition(node) {
-        if (!isFallbackFunction(node) && !isMixedCase(node.name)) {
+        if (!node.isConstructor && !isFallbackFunction(node) && !isMixedCase(node.name)) {
           context.report({
             node,
             message: "Function name must be in mixedCase style."
