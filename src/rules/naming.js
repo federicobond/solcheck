@@ -61,23 +61,20 @@ module.exports = {
       },
 
       VariableDeclaration(node) {
-        if (
-          node.isStateVar &&
-          node.isDeclaredConst &&
-          !isUpperCaseWithUnderscores(node.name)
-        ) {
-          context.report({
-            node,
-            message: "Constants must be in UPPER_CASE_WITH_UNDERSCORES style."
-          })
-          return
-        }
-
-        if (!isMixedCase(node.name)) {
-          context.report({
-            node,
-            message: "Variables must be in mixedCase style."
-          })
+        if (node.isStateVar && node.isDeclaredConst) {
+          if (!isUpperCaseWithUnderscores(node.name)) {
+            context.report({
+              node,
+              message: "Constants must be in UPPER_CASE_WITH_UNDERSCORES style."
+            })
+          }
+        } else {
+          if (!isMixedCase(node.name)) {
+            context.report({
+              node,
+              message: "Variables must be in mixedCase style."
+            })
+          }
         }
       }
     }
