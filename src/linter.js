@@ -93,6 +93,7 @@ class Linter {
   verify(source, filename) {
     const ast = parser.parse(source, { loc: true, range: true })
     this.sourceCode = new SourceCode(source, ast)
+    this.currentFilename = filename
 
     for (let [key, ruleCreator] of this.getRules()) {
       const ruleContext = new RuleContext(this, key, this.getRuleSeverity(key))
