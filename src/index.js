@@ -1,7 +1,7 @@
 import findUp from "find-up"
 import fs from "fs"
 import getStdin from 'get-stdin'
-import glob from "glob"
+import globby from "globby"
 
 import Linter from "./linter"
 
@@ -9,10 +9,10 @@ const formatter = require("eslint/lib/formatters/codeframe")
 
 const NAME = "solcheck"
 
-function lint(files, argv) {
+function lint(patterns, options) {
   let results = []
 
-  glob(files[0], (err, matches) => {
+  globby(patterns).then(matches => {
     for (let filename of matches) {
       const text = fs.readFileSync(filename).toString("utf-8")
       const report = verify(text, filename)
