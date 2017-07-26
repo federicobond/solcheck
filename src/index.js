@@ -12,7 +12,7 @@ const NAME = "solcheck"
 function lint(patterns, options) {
   let results = []
 
-  globby(patterns).then(matches => {
+  globby(patterns, { nodir: true }).then(matches => {
     for (let filename of matches) {
       const text = fs.readFileSync(filename).toString("utf-8")
       const report = verify(text, filename)
