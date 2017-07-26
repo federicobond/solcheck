@@ -5,9 +5,17 @@ import globby from "globby"
 
 import Linter from "./linter"
 
-const formatter = require("eslint/lib/formatters/codeframe")
-
 const NAME = "solcheck"
+const DEFAULT_FORMAT = "codeframe"
+
+function getFormatter(options) {
+  try {
+    return require(`eslint/lib/formatters/${options.format}`)
+  } catch (e) {
+    console.error(`Error: unknown formatter '${options.format}'`)
+    process.exit(1);
+  }
+}
 
 function lint(patterns, options) {
   let results = []
@@ -19,7 +27,7 @@ function lint(patterns, options) {
       results.push(report)
     }
 
-    console.log(formatter(results))
+    console.log(getFormatter(options)(results))
   })
 }
 
@@ -36,6 +44,10 @@ module.exports = function main() {
     .option("verbose", {
       alias: "v",
       default: false
+    })
+    .option("format", {
+      alias: "f",
+      default: DEFAULT_FORMAT
     })
     .option("stdin", {
       desc: "Lint code provided on <STDIN>",
@@ -56,7 +68,7 @@ module.exports = function main() {
 
     getStdin().then(str => {
       const results = [verify(str, argv['stdin-filename'])]
-      console.log(formatter(results))
+      console.log(getFormatter(argv)(results))
     })
 
   } else {
