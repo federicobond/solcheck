@@ -5,5 +5,6 @@ module.exports = {
   "naming": require("./naming"),
   "no-call-value": require("./no-call-value"),
   "no-mixed-spaces-and-tabs": require("./no-mixed-spaces-and-tabs"),
-  "similar-names": require("./similar-names")
+  "similar-names": require("./similar-names"),
+  "quotes": require("./quotes")
 }
