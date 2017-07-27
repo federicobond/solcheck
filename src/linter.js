@@ -91,9 +91,19 @@ class Linter {
   }
 
   verify(source, filename) {
-    const ast = parser.parse(source, { loc: true, range: true })
-    this.sourceCode = new SourceCode(source, ast)
     this.currentFilename = filename
+
+    let ast
+
+    try {
+      ast = parser.parse(source, { loc: true, range: true, tokens: true })
+    } catch(e) {
+      if (e instanceof parser.ParserError) {
+        return this.reportFromParserErrors(source, e.errors)
+      } else throw e;
+    }
+
+    this.sourceCode = new SourceCode(source, ast)
 
     for (let [key, ruleCreator] of this.getRules()) {
       const ruleContext = new RuleContext(this, key, this.getRuleSeverity(key))
@@ -108,6 +118,23 @@ class Linter {
       warningCount: this.warningCount,
       filePath: this.getFilename(),
       messages: this.messages,
+      source
+    }
+  }
+
+  reportFromParserErrors(source, errors) {
+    const messages = errors.map(({ line, column, message }) => ({
+      line,
+      column: column + 1,
+      message: 'Parsing error: ' + message,
+      fatal: true
+    }))
+
+    return {
+      errorCount: errors.length,
+      warningCount: 0,
+      filePath: this.getFilename(),
+      messages,
       source
     }
   }
