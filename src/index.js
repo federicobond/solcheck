@@ -14,7 +14,7 @@ function getFormatter(options) {
     return require(`eslint/lib/formatters/${options.format}`)
   } catch (e) {
     console.error(`Error: unknown formatter '${options.format}'`)
-    process.exit(1);
+    process.exit(1)
   }
 }
 
