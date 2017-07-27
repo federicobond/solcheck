@@ -1,5 +1,6 @@
 import findUp from "find-up"
 import fs from "fs"
+import path from "path"
 import getStdin from 'get-stdin'
 import globby from "globby"
 
@@ -27,8 +28,25 @@ function lint(patterns, options) {
       results.push(report)
     }
 
-    console.log(getFormatter(options)(results))
+    printResults(results, options)
   })
+}
+
+function printResults(results, options) {
+
+  const formatter = getFormatter(options)
+  const output = formatter(results)
+
+  if (output) {
+    const outputFile = options['output-file']
+
+    if (outputFile) {
+      const filePath = path.resolve(process.cwd(), outputFile)
+      fs.writeFileSync(filePath, output)
+    } else {
+      console.log(output)
+    }
+  }
 }
 
 function verify(source, filename) {
@@ -49,6 +67,11 @@ module.exports = function main() {
       alias: "f",
       default: DEFAULT_FORMAT
     })
+    .option("output-file", {
+      desc: "Specify file to write report to",
+      alias: "o",
+      type: "string"
+    })
     .option("stdin", {
       desc: "Lint code provided on <STDIN>",
       type: "boolean",
@@ -68,7 +91,7 @@ module.exports = function main() {
 
     getStdin().then(str => {
       const results = [verify(str, argv['stdin-filename'])]
-      console.log(getFormatter(argv)(results))
+      printResults(results, argv)
     })
 
   } else {
