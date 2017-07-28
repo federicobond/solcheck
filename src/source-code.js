@@ -15,6 +15,25 @@ class SourceCode {
   getLines() {
     return this.lines
   }
+
+  getFirstToken(node) {
+    return this.ast.tokens.filter(t => (
+      t.range[0] === node.range[0]
+    ))[0]
+  }
+
+  getLastToken(node) {
+    return this.ast.tokens.filter(t => (
+      t.range[1] === node.range[1] + 1
+    ))[0]
+  }
+
+  getTokens(node) {
+    return this.ast.tokens.filter(t => (
+      t.range[0] >= node.range[0] &&
+      t.range[1] <= node.range[1]
+    ))
+  }
 }
 
 export default SourceCode
