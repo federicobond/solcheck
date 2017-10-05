@@ -46,6 +46,11 @@ function printResults(results, options) {
     } else {
       console.log(output)
     }
+
+    // exit with correct code if there were errors
+    if (results.filter(r => r.errorCount > 0).length > 0) {
+      process.exit(1);
+    }
   }
 }
 
